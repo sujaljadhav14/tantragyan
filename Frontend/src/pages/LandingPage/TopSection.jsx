@@ -5,7 +5,7 @@ import { useTheme } from "../../components/theme-provider";
 import { ArrowRight, Sparkles, Users, BookOpen, Star } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { useNavigate } from 'react-router-dom';
-import heroImg from '../../assets/heroImg.png';
+import heroImg from '../../assets/heroImg.jpg';
 
 import FourOptions from './FourOptions'; // Import FourOptions component
 import TrendingCourses from './TrendingCourses'; // Import TrendingCourses component
@@ -66,7 +66,7 @@ const TopSection = () => {
                 className="bg-[#6938EF] hover:bg-[#5B2FD1] text-white font-semibold px-8 py-6 text-lg rounded-xl flex items-center gap-2"
                 onClick={() => navigate('/signup')}
               >
-                Get Started Free
+                Get Started For Free
                 <ArrowRight className="w-5 h-5" />
               </Button>
               <Button

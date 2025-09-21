@@ -8,6 +8,9 @@ import assemblyCourseImg from "../../assets/courses-image/assembly-course.jpg";
 import nodeJsCourseImg from "../../assets/courses-image/nodejs-course.jpg";
 import pythonCourseImg from "../../assets/courses-image/python-course.jpg";
 import typescriptCourseImg from "../../assets/courses-image/typescript-course.jpg";
+import ProgrammingWithMoshIns from "../../assets/instructor-image/PwM.jpg";
+import FreeCodeCampIns from "../../assets/instructor-image/FFC.png";
+
 
 const CourseCard = ({ course, theme }) => {
   return (
@@ -85,8 +88,8 @@ const TrendingCourses = () => {
     {
       id: 1,
       title: 'Assembly Language in ARM',
-      instructor: 'Dr. Sarah Johnson',
-      instructorImg: 'https://dashboard.codeparrot.ai/api/image/Z8X9N8hTinWyM7G1/img-2.png',
+      instructor: 'Scott Cosentino',
+      instructorImg: FreeCodeCampIns,
       courseImg: assemblyCourseImg,
       badge: 'Top Rated',
       badgeColor: '#6938EF',
@@ -97,10 +100,10 @@ const TrendingCourses = () => {
     {
       id: 2,
       title: 'Node.js & Express.js Expert Course',
-      instructor: 'Prof. Michael Chen',
-      instructorImg: 'https://dashboard.codeparrot.ai/api/image/Z8X9N8hTinWyM7G1/img-4.png',
+      instructor: 'John Smilga',
+      instructorImg: FreeCodeCampIns,
       courseImg: nodeJsCourseImg,
-      badge: 'Beginner Friendly',
+      badge: 'Intermediate Friendly',
       badgeColor: '#16a34a',
       rating: '4.8',
       reviews: '1.8k',
@@ -109,8 +112,8 @@ const TrendingCourses = () => {
     {
       id: 3,
       title: 'Python for beginners',
-      instructor: 'Alex Thompson',
-      instructorImg: 'https://dashboard.codeparrot.ai/api/image/Z8X9N8hTinWyM7G1/img-6.png',
+      instructor: 'Moshfegh Hamedani',
+      instructorImg: ProgrammingWithMoshIns,
       courseImg: pythonCourseImg,
       badge: "Most Popular",
       badgeColor: '#9333ea',
@@ -121,8 +124,8 @@ const TrendingCourses = () => {
     {
       id: 4,
       title: 'Typescript for beginners',
-      instructor: 'Alex Thompson',
-      instructorImg: 'https://dashboard.codeparrot.ai/api/image/Z8X9N8hTinWyM7G1/img-6.png',
+      instructor: 'Hitesh Choudhary',
+      instructorImg: FreeCodeCampIns,
       courseImg: typescriptCourseImg,
       badge: "Most Popular",
       badgeColor: '#9333ea',

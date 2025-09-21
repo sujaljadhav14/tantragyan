@@ -3,6 +3,10 @@ import { motion } from 'framer-motion';
 import { cn } from "@/lib/utils";
 import { useTheme } from "../../components/theme-provider";
 import { Quote } from 'lucide-react';
+import testimonal1 from "../../assets/testimonal-image/Kiran Nagar.jpg";
+import testimonal2 from "../../assets/testimonal-image/Ansh Nakwal.jpg";
+import testimonal3 from "../../assets/testimonal-image/Raksha.jpg";
+import testimonal4 from "../../assets/testimonal-image/Jai Arora.jpg";
 
 const TestimonialCard = ({ imageUrl, text, name, title }) => {
   const { theme } = useTheme();
@@ -72,27 +76,27 @@ const Testimonials = () => {
   const { theme } = useTheme();
   const testimonials = [
     {
-      imageUrl: "https://dashboard.codeparrot.ai/api/image/Z8czSxQ2u-KHiHW2/img.png",
+      imageUrl: testimonal1,
       text: "This platform offers great internships and structured roadmaps, helping me gain experience and grow my career.",
-      name: "Emily Roberts",
+      name: "Kiran Nagar",
       title: "Cyber Security Engineer"
     },
     {
-      imageUrl: "https://dashboard.codeparrot.ai/api/image/Z8czSxQ2u-KHiHW2/img-2.png",
+      imageUrl: testimonal2,
       text: "As a professor, this platform has been an invaluable resource. It has enhanced my knowledge & my teaching methods in ways.",
-      name: "Prof. Jeo Denmark",
+      name: "Ansh Nakwal",
       title: "Software Engineer"
     },
     {
-      imageUrl: "https://dashboard.codeparrot.ai/api/image/Z8czSxQ2u-KHiHW2/img-3.png",
+      imageUrl: testimonal3,
       text: "This platform has significantly boosted my career. The resources and opportunities have helped me grow professionally.",
-      name: "Kevin Joseph",
+      name: "Raksha",
       title: "Data Scientist"
     },
     {
-      imageUrl: "https://dashboard.codeparrot.ai/api/image/Z8czSxQ2u-KHiHW2/img-4.png",
+      imageUrl: testimonal4,
       text: "This platform has significantly boosted my career. The resources and opportunities have helped me grow professionally.",
-      name: "Monica Gartner",
+      name: "Jai Arora",
       title: "Graphics Engineer"
     }
   ];
