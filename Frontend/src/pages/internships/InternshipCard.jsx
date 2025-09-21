@@ -12,7 +12,7 @@ const InternshipCard = ({
   salary = "10,000 /month",
   duration = "6 Months",
   skills = "Python, Open CV, Django, docker, kubernetes",
-  companyLogo = "https://dashboard.codeparrot.ai/api/image/Z8WX91j1kitRpYXf/rectangl.png"
+  companyLogo = "/assets/samsung-logo.jpg"
 }) => {
   const { theme } = useTheme();
 
@@ -22,8 +22,8 @@ const InternshipCard = ({
       transition={{ duration: 0.2 }}
       className={cn(
         "group relative w-full rounded-xl border p-5 transition-all duration-300",
-        theme === 'dark' 
-          ? 'bg-[#110C1D] border-[#6938EF]/20 hover:border-[#6938EF] hover:shadow-lg hover:shadow-[#6938EF]/10' 
+        theme === 'dark'
+          ? 'bg-[#110C1D] border-[#6938EF]/20 hover:border-[#6938EF] hover:shadow-lg hover:shadow-[#6938EF]/10'
           : 'bg-card border-border hover:border-[#6938EF] hover:shadow-lg hover:shadow-[#6938EF]/5'
       )}
     >
@@ -38,13 +38,13 @@ const InternshipCard = ({
             <div className="flex items-center gap-2 mb-2">
               <div className={cn(
                 "w-8 h-8 rounded-lg overflow-hidden ring-2 transition-all duration-300",
-                theme === 'dark' 
-                  ? 'ring-[#6938EF]/20 group-hover:ring-[#6938EF]' 
+                theme === 'dark'
+                  ? 'ring-[#6938EF]/20 group-hover:ring-[#6938EF]'
                   : 'ring-[#6938EF]/20 group-hover:ring-[#6938EF]'
               )}>
-                <img 
-                  src={companyLogo} 
-                  alt={company} 
+                <img
+                  src={companyLogo}
+                  alt={company}
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -61,8 +61,8 @@ const InternshipCard = ({
           </div>
           <div className={cn(
             "w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 opacity-0 group-hover:opacity-100",
-            theme === 'dark' 
-              ? 'bg-[#6938EF] text-white' 
+            theme === 'dark'
+              ? 'bg-[#6938EF] text-white'
               : 'bg-[#6938EF] text-white'
           )}>
             <ArrowUpRight className="w-4 h-4" />
@@ -73,8 +73,8 @@ const InternshipCard = ({
         <div className="grid grid-cols-2 gap-4 mb-6">
           <div className={cn(
             "p-3 rounded-lg transition-all duration-300",
-            theme === 'dark' 
-              ? 'bg-white/5 group-hover:bg-[#6938EF]/10' 
+            theme === 'dark'
+              ? 'bg-white/5 group-hover:bg-[#6938EF]/10'
               : 'bg-[#6938EF]/5'
           )}>
             <div className="flex items-center gap-2 mb-1">
@@ -86,8 +86,8 @@ const InternshipCard = ({
 
           <div className={cn(
             "p-3 rounded-lg transition-all duration-300",
-            theme === 'dark' 
-              ? 'bg-white/5 group-hover:bg-[#6938EF]/10' 
+            theme === 'dark'
+              ? 'bg-white/5 group-hover:bg-[#6938EF]/10'
               : 'bg-[#6938EF]/5'
           )}>
             <div className="flex items-center gap-2 mb-1">
@@ -99,8 +99,8 @@ const InternshipCard = ({
 
           <div className={cn(
             "p-3 rounded-lg transition-all duration-300",
-            theme === 'dark' 
-              ? 'bg-white/5 group-hover:bg-[#6938EF]/10' 
+            theme === 'dark'
+              ? 'bg-white/5 group-hover:bg-[#6938EF]/10'
               : 'bg-[#6938EF]/5'
           )}>
             <div className="flex items-center gap-2 mb-1">
@@ -112,8 +112,8 @@ const InternshipCard = ({
 
           <div className={cn(
             "p-3 rounded-lg transition-all duration-300",
-            theme === 'dark' 
-              ? 'bg-white/5 group-hover:bg-[#6938EF]/10' 
+            theme === 'dark'
+              ? 'bg-white/5 group-hover:bg-[#6938EF]/10'
               : 'bg-[#6938EF]/5'
           )}>
             <div className="flex items-center gap-2 mb-1">
@@ -128,24 +128,24 @@ const InternshipCard = ({
         <div className="flex items-center justify-between">
           <span className={cn(
             "px-3 py-1 text-xs font-medium rounded-full transition-all duration-300",
-            theme === 'dark' 
-              ? 'bg-[#6938EF]/10 text-[#6938EF] group-hover:bg-[#6938EF] group-hover:text-white' 
+            theme === 'dark'
+              ? 'bg-[#6938EF]/10 text-[#6938EF] group-hover:bg-[#6938EF] group-hover:text-white'
               : 'bg-[#6938EF]/10 text-[#6938EF] group-hover:bg-[#6938EF] group-hover:text-white'
           )}>
             Internship
           </span>
           <a
-  href="https://internshala.com/internship/detail/work-from-home-part-time-artificial-intelligence-and-machine-learning-content-writing-internship-at-earth5r1741423449"
-  target="_blank"
-  rel="noopener noreferrer"
->
-  <Button
-    size="sm"
-    className="bg-gradient-to-r from-[#6938EF] to-[#9D7BFF] hover:from-[#5B2FD1] hover:to-[#8B6AE5] text-white shadow-lg shadow-[#6938EF]/25"
-  >
-    Apply Now
-  </Button>
-</a>
+            href="https://internshala.com/internship/detail/work-from-home-part-time-artificial-intelligence-and-machine-learning-content-writing-internship-at-earth5r1741423449"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Button
+              size="sm"
+              className="bg-gradient-to-r from-[#6938EF] to-[#9D7BFF] hover:from-[#5B2FD1] hover:to-[#8B6AE5] text-white shadow-lg shadow-[#6938EF]/25"
+            >
+              Apply Now
+            </Button>
+          </a>
 
         </div>
       </div>

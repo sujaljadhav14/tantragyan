@@ -4,6 +4,10 @@ import { cn } from "@/lib/utils";
 import { useTheme } from "../../components/theme-provider";
 import { ChevronLeft, ChevronRight, Star, Users, Clock } from 'lucide-react';
 import { Button } from "@/components/ui/button";
+import assemblyCourseImg from "../../assets/courses-image/assembly-course.jpg";
+import nodeJsCourseImg from "../../assets/courses-image/nodejs-course.jpg";
+import pythonCourseImg from "../../assets/courses-image/python-course.jpg";
+import typescriptCourseImg from "../../assets/courses-image/typescript-course.jpg";
 
 const CourseCard = ({ course, theme }) => {
   return (
@@ -80,11 +84,11 @@ const TrendingCourses = () => {
   const courses = [
     {
       id: 1,
-      title: 'ML Fundamentals',
+      title: 'Assembly Language in ARM',
       instructor: 'Dr. Sarah Johnson',
       instructorImg: 'https://dashboard.codeparrot.ai/api/image/Z8X9N8hTinWyM7G1/img-2.png',
-      courseImg: 'https://dashboard.codeparrot.ai/api/image/Z8X9N8hTinWyM7G1/img.png',
-      badge: 'Most Popular',
+      courseImg: assemblyCourseImg,
+      badge: 'Top Rated',
       badgeColor: '#6938EF',
       rating: '4.9',
       reviews: '2.3k',
@@ -92,10 +96,10 @@ const TrendingCourses = () => {
     },
     {
       id: 2,
-      title: 'Data Structures & Algorithms',
+      title: 'Node.js & Express.js Expert Course',
       instructor: 'Prof. Michael Chen',
       instructorImg: 'https://dashboard.codeparrot.ai/api/image/Z8X9N8hTinWyM7G1/img-4.png',
-      courseImg: 'https://dashboard.codeparrot.ai/api/image/Z8X9N8hTinWyM7G1/img-3.png',
+      courseImg: nodeJsCourseImg,
       badge: 'Beginner Friendly',
       badgeColor: '#16a34a',
       rating: '4.8',
@@ -104,11 +108,23 @@ const TrendingCourses = () => {
     },
     {
       id: 3,
-      title: 'Cloud Architecture',
+      title: 'Python for beginners',
       instructor: 'Alex Thompson',
       instructorImg: 'https://dashboard.codeparrot.ai/api/image/Z8X9N8hTinWyM7G1/img-6.png',
-      courseImg: 'https://dashboard.codeparrot.ai/api/image/Z8X9N8hTinWyM7G1/img-5.png',
-      badge: 'Advanced',
+      courseImg: pythonCourseImg,
+      badge: "Most Popular",
+      badgeColor: '#9333ea',
+      rating: '4.7',
+      reviews: '1.5k',
+      students: '8k+'
+    },
+    {
+      id: 4,
+      title: 'Typescript for beginners',
+      instructor: 'Alex Thompson',
+      instructorImg: 'https://dashboard.codeparrot.ai/api/image/Z8X9N8hTinWyM7G1/img-6.png',
+      courseImg: typescriptCourseImg,
+      badge: "Most Popular",
       badgeColor: '#9333ea',
       rating: '4.7',
       reviews: '1.5k',
