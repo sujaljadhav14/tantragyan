@@ -121,12 +121,14 @@ const Questions = () => {
             let assessmentDuration = 15;
 
             if (response.questions && response.questions.length > 0) {
-                // Direct questions structure
-                assessmentQuestions = response.questions.map(q => ({
+                // Direct questions structure (limit to 5 questions)
+                const limitedQuestions = response.questions.slice(0, 5);
+                assessmentQuestions = limitedQuestions.map(q => ({
                     ...q,
                     type: "multiple-choice",
                     options: q.options.map(opt => ({
                         ...opt,
+                        label: opt.label || opt.text || opt, // Handle different option formats
                         description: opt.description || ""
                     }))
                 }));
@@ -134,24 +136,26 @@ const Questions = () => {
                 assessmentDescription = response.description || assessmentDescription;
                 assessmentDuration = response.duration || assessmentDuration;
             } else if (response.roadmap && Array.isArray(response.roadmap)) {
-                // Roadmap structure - extract questions from skilltest arrays
+                // Roadmap structure - extract questions from skilltest arrays (limit to 5 questions)
                 assessmentQuestions = [];
                 response.roadmap.forEach((item, index) => {
-                    if (item.skilltest && Array.isArray(item.skilltest)) {
+                    if (item.skilltest && Array.isArray(item.skilltest) && assessmentQuestions.length < 5) {
                         item.skilltest.forEach((question, qIndex) => {
-                            assessmentQuestions.push({
-                                id: assessmentQuestions.length + 1,
-                                question: question.question,
-                                type: "multiple-choice",
-                                options: question.options.map((option, optIndex) => ({
-                                    id: optIndex,
-                                    text: option,
-                                    description: ""
-                                })),
-                                correctAnswer: question.answer,
-                                explanation: `This question is from: ${item.title || 'Assessment'}`,
-                                difficulty: "medium"
-                            });
+                            if (assessmentQuestions.length < 5) {
+                                assessmentQuestions.push({
+                                    id: assessmentQuestions.length + 1,
+                                    question: question.question,
+                                    type: "multiple-choice",
+                                    options: question.options.map((option, optIndex) => ({
+                                        id: optIndex,
+                                        label: option, // Changed from 'text' to 'label' to match UI expectations
+                                        description: ""
+                                    })),
+                                    correctAnswer: question.answer,
+                                    explanation: `This question is from: ${item.title || 'Assessment'}`,
+                                    difficulty: "medium"
+                                });
+                            }
                         });
                     }
                 });
@@ -165,6 +169,7 @@ const Questions = () => {
 
             console.log(`Extracted ${assessmentQuestions.length} questions for assessment`);
             console.log("Assessment questions preview:", assessmentQuestions.slice(0, 2));
+            console.log("First question options:", assessmentQuestions[0]?.options);
 
             if (assessmentQuestions.length > 0) {
                 setAssessment({
@@ -641,8 +646,12 @@ const Questions = () => {
                                         )}
                                         onClick={() => handleOptionSelect(index)}
                                     >
-                                        <div className="font-medium text-foreground">{option?.label}</div>
-                                        <div className="text-sm text-muted-foreground">{option?.description}</div>
+                                        <div className="font-medium text-foreground">
+                                            {option?.label || option?.text || option}
+                                        </div>
+                                        <div className="text-sm text-muted-foreground">
+                                            {option?.description || ""}
+                                        </div>
                                     </div>
                                 ))}
                             </div>
