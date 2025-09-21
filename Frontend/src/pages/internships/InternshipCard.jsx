@@ -4,15 +4,16 @@ import { cn } from "@/lib/utils";
 import { useTheme } from "../../components/theme-provider";
 import { MapPin, Clock, Code, IndianRupee, ArrowUpRight, Building2 } from 'lucide-react';
 import { Button } from "@/components/ui/button";
+import samsungLogo from '../../assets/internship-logo.png';  // Add this import
 
 const InternshipCard = ({
   title = "Machine Learning Intern",
-  company = "Samsun Pvt Ltd.",
-  location = "Mysuru, Shimoga, Gargoti, Colva, Chikmagalur",
+  company = "Google Inc.",
+  location = "Mumbai, Bangalore, Pune, Delhi",
   salary = "10,000 /month",
   duration = "6 Months",
   skills = "Python, Open CV, Django, docker, kubernetes",
-  companyLogo = "/assets/samsung-logo.jpg"
+  companyLogo = samsungLogo  // Update this line to use the imported image
 }) => {
   const { theme } = useTheme();
 
