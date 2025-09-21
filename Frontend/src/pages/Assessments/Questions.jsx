@@ -85,31 +85,93 @@ const Questions = () => {
                     .replace(/\s+/g, ' ')       // Normalize spaces
                     .trim();                    // Final trim
 
+                // Fix incomplete JSON by adding missing closing brackets
+                const openBraces = (cleanText.match(/\{/g) || []).length;
+                const closeBraces = (cleanText.match(/\}/g) || []).length;
+                const openBrackets = (cleanText.match(/\[/g) || []).length;
+                const closeBrackets = (cleanText.match(/\]/g) || []).length;
+
+                // Add missing closing brackets
+                for (let i = 0; i < openBraces - closeBraces; i++) {
+                    cleanText += '}';
+                }
+                for (let i = 0; i < openBrackets - closeBrackets; i++) {
+                    cleanText += ']';
+                }
+
                 console.log("Final text to parse:", cleanText);
                 response = JSON.parse(cleanText);
                 console.log("Successfully parsed response:", response);
+                console.log("Response structure analysis:", {
+                    hasQuestions: !!(response.questions && response.questions.length > 0),
+                    hasRoadmap: !!(response.roadmap && Array.isArray(response.roadmap)),
+                    questionsCount: response.questions?.length || 0,
+                    roadmapCount: response.roadmap?.length || 0
+                });
             } catch (e) {
                 console.error("JSON Parse Error:", e);
                 console.error("Failed text:", cleanText);
                 throw new Error(`Failed to parse assessment data: ${e.message}`);
             }
 
+            // Handle both roadmap and questions structures
+            let assessmentQuestions = [];
+            let assessmentTitle = "Assessment";
+            let assessmentDescription = "Test your knowledge in your chosen field";
+            let assessmentDuration = 15;
+
             if (response.questions && response.questions.length > 0) {
-                // The questions are already properly formatted, just add the type
-                const assessmentQuestions = response.questions.map(q => ({
+                // Direct questions structure
+                assessmentQuestions = response.questions.map(q => ({
                     ...q,
                     type: "multiple-choice",
                     options: q.options.map(opt => ({
                         ...opt,
-                        description: opt.description || ""  // Ensure description exists
+                        description: opt.description || ""
                     }))
                 }));
+                assessmentTitle = response.title || assessmentTitle;
+                assessmentDescription = response.description || assessmentDescription;
+                assessmentDuration = response.duration || assessmentDuration;
+            } else if (response.roadmap && Array.isArray(response.roadmap)) {
+                // Roadmap structure - extract questions from skilltest arrays
+                assessmentQuestions = [];
+                response.roadmap.forEach((item, index) => {
+                    if (item.skilltest && Array.isArray(item.skilltest)) {
+                        item.skilltest.forEach((question, qIndex) => {
+                            assessmentQuestions.push({
+                                id: assessmentQuestions.length + 1,
+                                question: question.question,
+                                type: "multiple-choice",
+                                options: question.options.map((option, optIndex) => ({
+                                    id: optIndex,
+                                    text: option,
+                                    description: ""
+                                })),
+                                correctAnswer: question.answer,
+                                explanation: `This question is from: ${item.title || 'Assessment'}`,
+                                difficulty: "medium"
+                            });
+                        });
+                    }
+                });
 
+                // Set title and description from roadmap
+                if (response.roadmap[0] && response.roadmap[0].interests) {
+                    assessmentTitle = `${response.roadmap[0].interests} Assessment`;
+                    assessmentDescription = `Test your knowledge in ${response.roadmap[0].interests}`;
+                }
+            }
+
+            console.log(`Extracted ${assessmentQuestions.length} questions for assessment`);
+            console.log("Assessment questions preview:", assessmentQuestions.slice(0, 2));
+
+            if (assessmentQuestions.length > 0) {
                 setAssessment({
                     id: 125658,
-                    title: response.title || "Assessment",
-                    description: response.description || "Test your knowledge in your chosen field",
-                    duration: response.duration || 15,
+                    title: assessmentTitle,
+                    description: assessmentDescription,
+                    duration: assessmentDuration,
                     questions: assessmentQuestions
                 });
 

@@ -64,10 +64,17 @@ const CORS_OPTIONS = {
 };
 
 // Middlewares
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 app.use(cookieParser());
 app.use(cors(CORS_OPTIONS));
+
+// Request timeout middleware
+app.use((req, res, next) => {
+  req.setTimeout(120000); // 2 minutes timeout
+  res.setTimeout(120000); // 2 minutes timeout
+  next();
+});
 
 // Routes
 app.use("/api/health", healthRoutes);

@@ -7,6 +7,7 @@ import {
 import User from "../models/user.model.js";
 import Course from "../models/course.model.js";
 import axios from "axios";
+import { callLangflowAPI, createLangflowPayload } from "../utils/langflow.util.js";
 
 export const createAssessment = async (req, res) => {
   try {
@@ -351,169 +352,105 @@ async function generateRecommendations(userProfile, skillGaps) {
 }
 // Add this function
 export const getLangflowRoadmap = async (req, res) => {
-  const maxRetries = 3;
-  const retryDelay = 2000; // 2 seconds
+  try {
+    const { input_value, assessmentScore, skillGaps } = req.body;
 
-  for (let attempt = 1; attempt <= maxRetries; attempt++) {
-    try {
-      const { input_value, assessmentScore, skillGaps } = req.body;
+    const payload = createLangflowPayload(input_value);
 
-      const payload = {
-        input_value,
-        output_type: "chat",
-        input_type: "chat",
-        tweaks: {
-          "ChatInput-dOH3m": {},
-          "Prompt-cMcHL": {},
-          "GoogleGenerativeAIModel-3V8H5": {},
-          "ChatOutput-XCd37": {},
-        },
-      };
+    const response = await callLangflowAPI(
+      process.env.LANGFLOW_API_URL,
+      process.env.LANGFLOW_TOKEN,
+      payload,
+      { operation: 'roadmap generation' }
+    );
 
-      console.log(`Calling Langflow API for roadmap (attempt ${attempt}/${maxRetries}) with input:`, input_value);
-      const response = await axios.post(process.env.LANGFLOW_API_URL, payload, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${process.env.LANGFLOW_TOKEN}`,
-        },
-        timeout: 30000, // 30 seconds timeout per attempt
+    return res.json(response);
+
+  } catch (error) {
+    console.error('Error in getLangflowRoadmap:', error);
+
+    if (error.statusCode === 504) {
+      return res.status(504).json({
+        error: error.message,
+        details: error.details,
+        attempts: error.errorInfo?.attempts
       });
-
-      console.log("Langflow API roadmap response received successfully");
-      return res.json(response.data);
-
-    } catch (error) {
-      console.error(
-        `Langflow API roadmap attempt ${attempt} failed:`,
-        error.response?.status,
-        error.response?.data || error.message
-      );
-
-      // If it's the last attempt, return the error
-      if (attempt === maxRetries) {
-        if (error.code === 'ECONNABORTED' || error.response?.status === 504) {
-          return res.status(504).json({
-            error: "Request timeout - Langflow API is taking too long to respond",
-            details: "The AI service is experiencing delays. Please try again in a few moments.",
-            attempts: maxRetries
-          });
-        } else {
-          return res.status(500).json({
-            error: "Failed to generate roadmap after multiple attempts",
-            details: error.response?.data || error.message,
-            attempts: maxRetries
-          });
-        }
-      }
-
-      // Wait before retrying (exponential backoff)
-      const delay = retryDelay * attempt;
-      console.log(`Waiting ${delay}ms before retry...`);
-      await new Promise(resolve => setTimeout(resolve, delay));
+    } else {
+      return res.status(500).json({
+        error: error.message,
+        details: error.details,
+        attempts: error.errorInfo?.attempts
+      });
     }
   }
 };
 
 export const getLangflowQuestions = async (req, res) => {
-  const maxRetries = 3;
-  const retryDelay = 2000; // 2 seconds
-  let lastError;
+  try {
+    const { input_value } = req.body;
 
-  for (let attempt = 1; attempt <= maxRetries; attempt++) {
-    try {
-      const { input_value } = req.body;
+    const payload = createLangflowPayload(input_value);
 
-      const payload = {
-        input_value,
-        output_type: "chat",
-        input_type: "chat",
-        tweaks: {
-          "ChatInput-dOH3m": {},
-          "Prompt-cMcHL": {},
-          "GoogleGenerativeAIModel-3V8H5": {},
-          "ChatOutput-XCd37": {},
-        },
-      };
+    const response = await callLangflowAPI(
+      process.env.LANGFLOW_API_URL,
+      process.env.LANGFLOW_TOKEN,
+      payload,
+      { operation: 'questions generation' }
+    );
 
-      console.log(`Calling Langflow API (attempt ${attempt}/${maxRetries}) with input:`, input_value);
-      const response = await axios.post(process.env.LANGFLOW_API_URL, payload, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${process.env.LANGFLOW_TOKEN}`,
-        },
-        timeout: 30000, // 30 seconds timeout per attempt
-      });
-
-      console.log("Langflow API response received successfully");
-
-      // Transform roadmap data to assessment format
-      const roadmapData = response.data;
-      if (roadmapData.roadmap && roadmapData.roadmap.milestones) {
-        // Extract all skilltest questions from all milestones
-        const allQuestions = [];
-        roadmapData.roadmap.milestones.forEach((milestone, milestoneIndex) => {
-          if (milestone.skilltest && Array.isArray(milestone.skilltest)) {
-            milestone.skilltest.forEach((question, questionIndex) => {
-              allQuestions.push({
-                id: allQuestions.length + 1,
-                question: question.question,
-                options: question.options.map((option, optionIndex) => ({
-                  id: optionIndex,
-                  text: option,
-                  description: ""
-                })),
-                correctAnswer: question.answer,
-                explanation: `This question is from: ${milestone.title}`,
-                difficulty: "medium"
-              });
+    // Transform roadmap data to assessment format
+    if (response.roadmap && response.roadmap.milestones) {
+      // Extract all skilltest questions from all milestones
+      const allQuestions = [];
+      response.roadmap.milestones.forEach((milestone, milestoneIndex) => {
+        if (milestone.skilltest && Array.isArray(milestone.skilltest)) {
+          milestone.skilltest.forEach((question, questionIndex) => {
+            allQuestions.push({
+              id: allQuestions.length + 1,
+              question: question.question,
+              options: question.options.map((option, optionIndex) => ({
+                id: optionIndex,
+                text: option,
+                description: ""
+              })),
+              correctAnswer: question.answer,
+              explanation: `This question is from: ${milestone.title}`,
+              difficulty: "medium"
             });
-          }
-        });
-
-        // Create assessment response structure
-        const assessmentResponse = {
-          title: `${roadmapData.roadmap.interests} Assessment`,
-          description: `Test your knowledge in ${roadmapData.roadmap.interests}`,
-          duration: 15,
-          questions: allQuestions
-        };
-
-        console.log(`Transformed ${allQuestions.length} questions for assessment`);
-        return res.json(assessmentResponse);
-      } else {
-        // Fallback to original response if structure is different
-        return res.json(response.data);
-      }
-
-    } catch (error) {
-      lastError = error;
-      console.error(
-        `Langflow API attempt ${attempt} failed:`,
-        error.response?.status,
-        error.response?.data || error.message
-      );
-
-      // If it's the last attempt, return the error
-      if (attempt === maxRetries) {
-        if (error.code === 'ECONNABORTED' || error.response?.status === 504) {
-          return res.status(504).json({
-            error: "Request timeout - Langflow API is taking too long to respond",
-            details: "The AI service is experiencing delays. Please try again in a few moments.",
-            attempts: maxRetries
-          });
-        } else {
-          return res.status(500).json({
-            error: "Failed to generate questions after multiple attempts",
-            details: error.response?.data || error.message,
-            attempts: maxRetries
           });
         }
-      }
+      });
 
-      // Wait before retrying (exponential backoff)
-      const delay = retryDelay * attempt;
-      console.log(`Waiting ${delay}ms before retry...`);
-      await new Promise(resolve => setTimeout(resolve, delay));
+      // Create assessment response structure
+      const assessmentResponse = {
+        title: `${response.roadmap.interests} Assessment`,
+        description: `Test your knowledge in ${response.roadmap.interests}`,
+        duration: 15,
+        questions: allQuestions
+      };
+
+      console.log(`Transformed ${allQuestions.length} questions for assessment`);
+      return res.json(assessmentResponse);
+    } else {
+      // Fallback to original response if structure is different
+      return res.json(response);
+    }
+
+  } catch (error) {
+    console.error('Error in getLangflowQuestions:', error);
+
+    if (error.statusCode === 504) {
+      return res.status(504).json({
+        error: error.message,
+        details: error.details,
+        attempts: error.errorInfo?.attempts
+      });
+    } else {
+      return res.status(500).json({
+        error: error.message,
+        details: error.details,
+        attempts: error.errorInfo?.attempts
+      });
     }
   }
 };

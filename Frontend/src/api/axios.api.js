@@ -3,6 +3,7 @@ import axios from "axios";
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL, // Update port from 3000 to 4000
   withCredentials: true,
+  timeout: 120000, // 2 minutes timeout for frontend requests
 });
 
 // Add a request interceptor to include the token
@@ -312,6 +313,7 @@ export const nextQuestions = async (responses) => {
     },
     {
       withCredentials: true,
+      timeout: 120000, // 2 minutes timeout
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("auth_token")}`,
@@ -323,7 +325,8 @@ export const nextQuestions = async (responses) => {
 export const getCourseCompletionStatus = async (courseId) => {
   try {
     const response = await axios.get(
-      `/api/progress/courses/${courseId}/completion`
+      `/api/progress/courses/${courseId}/completion`,
+      { timeout: 120000 }
     );
     return response.data;
   } catch (error) {
@@ -334,7 +337,8 @@ export const getCourseCompletionStatus = async (courseId) => {
 export const getCertificate = async (courseId) => {
   try {
     const response = await axios.get(
-      `/api/progress/courses/${courseId}/certificate`
+      `/api/progress/courses/${courseId}/certificate`,
+      { timeout: 120000 }
     );
     return response.data;
   } catch (error) {
@@ -353,7 +357,7 @@ export const getAchievements = async () => {
 
 export const checkAchievements = async () => {
   try {
-    const response = await axios.post("/api/achievements/check");
+    const response = await axios.post("/api/achievements/check", {}, { timeout: 120000 });
     return response.data;
   } catch (error) {
     throw error.response?.data?.error || error.message;
@@ -362,7 +366,7 @@ export const checkAchievements = async () => {
 
 export const getAchievementDetails = async (achievementId) => {
   try {
-    const response = await axios.get(`/api/achievements/${achievementId}`);
+    const response = await axios.get(`/api/achievements/${achievementId}`, { timeout: 120000 });
     return response.data;
   } catch (error) {
     throw error.response?.data?.error || error.message;
