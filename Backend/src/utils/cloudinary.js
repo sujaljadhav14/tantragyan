@@ -11,7 +11,7 @@ cloudinary.config({
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
-    folder: "eduai/courses",
+    folder: "Tantragyan/courses",
     allowed_formats: ["jpg", "jpeg", "png", "webp"],
     transformation: [{ width: 1280, height: 720, crop: "fill" }],
   },

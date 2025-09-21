@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { cn } from "@/lib/utils";
-import { 
-  Award, 
-  Search, 
-  CheckCircle, 
+import {
+  Award,
+  Search,
+  CheckCircle,
   XCircle,
   Loader2,
   ArrowRight,
@@ -26,7 +26,7 @@ const CertificateVerify = () => {
   const [certificateData, setCertificateData] = useState(null);
   // In the CertificateVerify component
   const location = useLocation();
-  
+
   useEffect(() => {
     // If certificateId was passed via navigation state, use it
     if (location.state?.certificateId) {
@@ -45,7 +45,7 @@ const CertificateVerify = () => {
       instructor: "Dr. Alex Thompson",
       issueDate: "October 15, 2023",
       validUntil: "Lifetime",
-      issuedBy: "EduAI Learning Platform"
+      issuedBy: "Tantragyan Learning Platform"
     },
     "JS-2023-5678": {
       id: "JS-2023-5678",
@@ -56,7 +56,7 @@ const CertificateVerify = () => {
       instructor: "Prof. Michael Chen",
       issueDate: "May 20, 2023",
       validUntil: "Lifetime",
-      issuedBy: "EduAI Learning Platform"
+      issuedBy: "Tantragyan Learning Platform"
     },
     "REACT-2023-9012": {
       id: "REACT-2023-9012",
@@ -67,18 +67,18 @@ const CertificateVerify = () => {
       instructor: "Dr. Emily Rodriguez",
       issueDate: "June 25, 2023",
       validUntil: "Lifetime",
-      issuedBy: "EduAI Learning Platform"
+      issuedBy: "Tantragyan Learning Platform"
     }
   };
   const verifyCertificate = () => {
     if (!certificateId.trim()) return;
-    
+
     setVerificationStatus('loading');
-    
+
     // Simulate API call with timeout
     setTimeout(() => {
       const certificate = certificateDatabase[certificateId];
-      
+
       if (certificate) {
         setVerificationStatus('verified');
         setCertificateData(certificate);
@@ -110,19 +110,19 @@ const CertificateVerify = () => {
               )} />
             </div>
           </div>
-          
+
           <h1 className={cn(
             "text-2xl sm:text-3xl font-bold mb-2",
             theme === 'dark' ? 'text-white' : 'text-foreground'
           )}>
             Certificate Verification
           </h1>
-          
+
           <p className={cn(
             "text-sm max-w-md mx-auto",
             theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
           )}>
-            Enter the certificate ID to verify its authenticity. All certificates issued by EduAI can be verified using their unique ID.
+            Enter the certificate ID to verify its authenticity. All certificates issued by Tantragyan can be verified using their unique ID.
           </p>
         </div>
 
@@ -145,7 +145,7 @@ const CertificateVerify = () => {
                 if (e.key === 'Enter') verifyCertificate();
               }}
             />
-            
+
             <Button
               onClick={verifyCertificate}
               disabled={verificationStatus === 'loading' || !certificateId.trim()}
@@ -159,7 +159,7 @@ const CertificateVerify = () => {
               Verify Certificate
             </Button>
           </div>
-          
+
           {/* Sample certificate IDs for testing */}
           <div className="flex flex-wrap gap-2 mb-4">
             <p className={cn(
@@ -183,7 +183,7 @@ const CertificateVerify = () => {
               </button>
             ))}
           </div>
-          
+
           {/* Verification Result */}
           {verificationStatus && verificationStatus !== 'loading' && (
             <motion.div
@@ -213,7 +213,7 @@ const CertificateVerify = () => {
                     theme === 'dark' ? 'text-[#EF4444]' : 'text-[#EF4444]'
                   )} />
                 )}
-                
+
                 <h3 className={cn(
                   "font-semibold",
                   theme === 'dark' ? 'text-white' : 'text-gray-900'
@@ -224,7 +224,7 @@ const CertificateVerify = () => {
                   }
                 </h3>
               </div>
-              
+
               {verificationStatus === 'verified' && certificateData && (
                 <>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
@@ -252,7 +252,7 @@ const CertificateVerify = () => {
                       </div>
                     ))}
                   </div>
-                  
+
                   <Button
                     onClick={viewCertificateDetails}
                     className="w-full bg-[#6938EF] hover:bg-[#5B2FD1] text-white flex items-center gap-2"
@@ -262,7 +262,7 @@ const CertificateVerify = () => {
                   </Button>
                 </>
               )}
-              
+
               {verificationStatus === 'invalid' && (
                 <p className={cn(
                   "text-sm",
@@ -274,7 +274,7 @@ const CertificateVerify = () => {
             </motion.div>
           )}
         </div>
-        
+
         {/* How Verification Works */}
         <div className={cn(
           "p-6 rounded-xl border",
@@ -288,13 +288,13 @@ const CertificateVerify = () => {
           )}>
             How Certificate Verification Works
           </h3>
-          
+
           <div className="space-y-4">
             {[
               {
                 icon: <FileCheck className="w-5 h-5" />,
                 title: "Unique Certificate ID",
-                description: "Each certificate issued by EduAI has a unique ID that can be used to verify its authenticity."
+                description: "Each certificate issued by Tantragyan has a unique ID that can be used to verify its authenticity."
               },
               {
                 icon: <Search className="w-5 h-5" />,
@@ -309,7 +309,7 @@ const CertificateVerify = () => {
               {
                 icon: <Calendar className="w-5 h-5" />,
                 title: "Validity Period",
-                description: "Most EduAI certificates are valid for a lifetime, but some specialized certifications may have an expiration date."
+                description: "Most Tantragyan certificates are valid for a lifetime, but some specialized certifications may have an expiration date."
               }
             ].map((item, index) => (
               <div key={index} className="flex gap-3">
@@ -317,11 +317,11 @@ const CertificateVerify = () => {
                   "w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0",
                   theme === 'dark' ? 'bg-[#1A1425]' : 'bg-[#F9F5FF]'
                 )}>
-                  {React.cloneElement(item.icon, { 
-                    className: `w-5 h-5 ${theme === 'dark' ? 'text-[#9D7BFF]' : 'text-[#6938EF]'}` 
+                  {React.cloneElement(item.icon, {
+                    className: `w-5 h-5 ${theme === 'dark' ? 'text-[#9D7BFF]' : 'text-[#6938EF]'}`
                   })}
                 </div>
-                
+
                 <div>
                   <h4 className={cn(
                     "font-medium text-sm",

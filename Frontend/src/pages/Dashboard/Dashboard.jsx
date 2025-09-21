@@ -638,7 +638,7 @@ const Dashboard = () => {
               </div>
               <div className="space-y-6">
                 <p className="text-sm text-muted-foreground">
-                  Welcome to EduAI! Let's help you begin your learning journey. Choose from the options below to get started.
+                  Welcome to TantraGyan! Let's help you begin your learning journey. Choose from the options below to get started.
                 </p>
                 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

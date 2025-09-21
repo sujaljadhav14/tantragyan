@@ -3,13 +3,13 @@ import { motion, AnimatePresence } from 'framer-motion';
 import domtoimage from 'dom-to-image';
 import confetti from 'canvas-confetti';
 import { cn } from "@/lib/utils";
-import { 
-  Download, 
-  Award, 
-  CheckCircle, 
-  Trophy, 
-  Sparkles, 
-  Loader2, 
+import {
+  Download,
+  Award,
+  CheckCircle,
+  Trophy,
+  Sparkles,
+  Loader2,
   Share2,
   X,
   Copy,
@@ -29,12 +29,12 @@ import { Badge } from "@/components/ui/badge";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { useNavigate } from 'react-router-dom';
 
-const Certificate = ({ 
-  courseName = "Python Basics", 
-  completionDate = new Date().toLocaleDateString('en-US', { 
-    year: 'numeric', 
-    month: 'long', 
-    day: 'numeric' 
+const Certificate = ({
+  courseName = "Python Basics",
+  completionDate = new Date().toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
   }),
   studentName,
   courseId
@@ -69,32 +69,32 @@ const Certificate = ({
       skills: ["Python Syntax", "Data Structures", "File Handling", "Error Handling"],
       issueDate: "October 15, 2023",
       validUntil: "Lifetime",
-      issuedBy: "EduAI Learning Platform"
+      issuedBy: "Tantragyan Learning Platform"
     });
   }, [courseName, completionDate, studentName, courseId, user]);
 
   const downloadAsPNG = async () => {
     if (isDownloading) return;
     setIsDownloading(true);
-    
+
     try {
       const element = certificateRef.current;
-      
+
       // Create a temporary container with fixed dimensions
       const container = document.createElement('div');
       container.style.position = 'absolute';
       container.style.left = '-9999px';
       container.style.width = '1200px';
-      
+
       // Clone the certificate content
       const clone = element.cloneNode(true);
       clone.style.width = '100%';
       clone.style.height = 'auto';
       clone.style.backgroundColor = theme === 'dark' ? '#0A0118' : '#ffffff';
-      
+
       container.appendChild(clone);
       document.body.appendChild(container);
-      
+
       const dataUrl = await domtoimage.toPng(clone, {
         quality: 1.0,
         width: 1200,
@@ -104,14 +104,14 @@ const Certificate = ({
           transformOrigin: 'top left'
         }
       });
-      
+
       document.body.removeChild(container);
-      
+
       const link = document.createElement('a');
       link.download = `${certificateData?.studentName.replace(/\s+/g, '-')}-${certificateData?.courseName.replace(/\s+/g, '-')}-certificate.png`;
       link.href = dataUrl;
       link.click();
-      
+
       // Trigger confetti celebration
       confetti({
         particleCount: 150,
@@ -122,7 +122,7 @@ const Certificate = ({
     } catch (error) {
       console.error('Certificate download failed:', error);
     }
-    
+
     setIsDownloading(false);
   };
 
@@ -149,8 +149,8 @@ const Certificate = ({
   }
 
   const CertificateDisplay = () => (
-    <div 
-      ref={certificateRef} 
+    <div
+      ref={certificateRef}
       className={cn(
         "relative p-8 sm:p-12 rounded-2xl shadow-2xl border w-full overflow-hidden",
         theme === 'dark'
@@ -162,13 +162,13 @@ const Certificate = ({
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
         {/* Top Left Corner Decoration */}
         <div className="absolute -top-20 -left-20 w-64 h-64 rounded-full bg-gradient-to-br from-[#6938EF]/20 to-transparent blur-xl" />
-        
+
         {/* Bottom Right Corner Decoration */}
         <div className="absolute -bottom-20 -right-20 w-64 h-64 rounded-full bg-gradient-to-tl from-[#9D7BFF]/20 to-transparent blur-xl" />
-        
+
         {/* Center Decoration */}
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full bg-gradient-to-r from-[#6938EF]/5 to-[#9D7BFF]/5 blur-3xl" />
-        
+
         {/* Grid Pattern */}
         <div className="absolute inset-0 opacity-5">
           <div className="w-full h-full" style={{
@@ -191,12 +191,12 @@ const Certificate = ({
                 "text-sm font-semibold",
                 theme === 'dark' ? 'text-white' : 'text-gray-900'
               )}>
-                EduAI
+                Tantragyan
               </h3>
               <p className="text-xs text-gray-500">Certificate of Completion</p>
             </div>
           </div>
-          
+
           <div className="text-right">
             <p className="text-xs text-gray-500">Certificate ID</p>
             <p className={cn(
@@ -207,7 +207,7 @@ const Certificate = ({
             </p>
           </div>
         </div>
-        
+
         {/* Title */}
         <div className="text-center my-8">
           <h2 className={cn(
@@ -218,7 +218,7 @@ const Certificate = ({
           </h2>
           <div className="w-24 h-1 mx-auto bg-gradient-to-r from-[#6938EF] to-[#9D7BFF] rounded-full" />
         </div>
-        
+
         {/* Main Content */}
         <div className="text-center mb-8">
           <p className={cn(
@@ -227,44 +227,44 @@ const Certificate = ({
           )}>
             This is to certify that
           </p>
-          
+
           <h3 className={cn(
             "text-xl sm:text-2xl md:text-3xl font-bold mb-6 font-serif",
             theme === 'dark' ? 'text-white' : 'text-gray-900'
           )}>
             {certificateData.studentName}
           </h3>
-          
+
           <p className={cn(
             "text-sm mb-6",
             theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
           )}>
             has successfully completed the course
           </p>
-          
+
           <div className="relative inline-block mb-6">
             <h4 className={cn(
               "text-lg sm:text-xl md:text-2xl font-bold px-6 py-2 rounded-lg",
-              theme === 'dark' 
-                ? 'bg-[#1A1425] text-white border border-[#6938EF]/30' 
+              theme === 'dark'
+                ? 'bg-[#1A1425] text-white border border-[#6938EF]/30'
                 : 'bg-[#F9F5FF] text-[#6938EF] border border-[#6938EF]/20'
             )}>
               {certificateData.courseName}
             </h4>
             <Sparkles className="absolute -top-2 -right-2 w-5 h-5 text-[#FFD700]" />
           </div>
-          
+
           <p className={cn(
             "text-sm mb-2",
             theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
           )}>
             with a grade of
           </p>
-          
+
           <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-br from-[#6938EF] to-[#9D7BFF] mb-6">
             <span className="text-white font-bold text-lg">{certificateData.grade}</span>
           </div>
-          
+
           <p className={cn(
             "text-sm",
             theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
@@ -272,7 +272,7 @@ const Certificate = ({
             on {certificateData.completionDate}
           </p>
         </div>
-        
+
         {/* Skills Section */}
         <div className="mb-8">
           <h4 className={cn(
@@ -281,7 +281,7 @@ const Certificate = ({
           )}>
             Skills Acquired
           </h4>
-          
+
           <div className="flex flex-wrap justify-center gap-2">
             {certificateData.skills.map((skill, index) => (
               <motion.div
@@ -302,7 +302,7 @@ const Certificate = ({
             ))}
           </div>
         </div>
-        
+
         {/* Footer */}
         <div className="flex justify-between items-end pt-6 border-t border-dashed border-gray-300 dark:border-gray-700">
           <div>
@@ -343,7 +343,7 @@ const Certificate = ({
                 />
               </svg>
             </div>
-            
+
             <div className="w-20 h-20">
               <svg viewBox="0 0 100 100" className="w-full h-full">
                 <defs>
@@ -386,7 +386,7 @@ const Certificate = ({
           )}>
             Your Achievement Certificate
           </h1>
-          
+
           <div className="flex gap-3">
             <Button
               onClick={downloadAsPNG}
@@ -405,7 +405,7 @@ const Certificate = ({
         </div>
 
         <CertificateDisplay />
-        
+
         {/* Certificate Details and Verification Section */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
           {/* Left Column - Other Certificates */}
@@ -422,30 +422,30 @@ const Certificate = ({
               )}>
                 Other Certificates
               </h3>
-              
+
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {[
-                  { 
-                    id: "JS-2023-5678", 
-                    name: "JavaScript Fundamentals", 
+                  {
+                    id: "JS-2023-5678",
+                    name: "JavaScript Fundamentals",
                     date: "May 15, 2023",
                     instructor: "Prof. Michael Chen"
                   },
-                  { 
-                    id: "REACT-2023-9012", 
-                    name: "React Development", 
+                  {
+                    id: "REACT-2023-9012",
+                    name: "React Development",
                     date: "June 22, 2023",
                     instructor: "Dr. Emily Rodriguez"
                   },
-                  { 
-                    id: "NODE-2023-3456", 
-                    name: "Node.js Backend", 
+                  {
+                    id: "NODE-2023-3456",
+                    name: "Node.js Backend",
                     date: "July 10, 2023",
                     instructor: "Sarah Williams"
                   },
-                  { 
-                    id: "CSS-2023-7890", 
-                    name: "Advanced CSS", 
+                  {
+                    id: "CSS-2023-7890",
+                    name: "Advanced CSS",
                     date: "August 5, 2023",
                     instructor: "James Thompson"
                   }
@@ -464,7 +464,7 @@ const Certificate = ({
                       <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#6938EF]/20 to-[#9D7BFF]/20 flex items-center justify-center">
                         <Award className="w-5 h-5 text-[#6938EF]" />
                       </div>
-                      
+
                       <div className="flex-1">
                         <h4 className={cn(
                           "font-medium text-sm",
@@ -472,7 +472,7 @@ const Certificate = ({
                         )}>
                           {cert.name}
                         </h4>
-                        
+
                         <div className="flex items-center gap-2 mt-1">
                           <p className="text-xs text-muted-foreground">
                             {cert.date}
@@ -482,7 +482,7 @@ const Certificate = ({
                             {cert.instructor}
                           </p>
                         </div>
-                        
+
                         <div className="flex items-center gap-2 mt-2">
                           <span className="text-xs font-mono text-muted-foreground">
                             ID: {cert.id}
@@ -495,7 +495,7 @@ const Certificate = ({
               </div>
             </div>
           </div>
-          
+
           {/* Right Column - Certificate Verification */}
           <div className="md:col-span-1">
             <div className={cn(
@@ -515,14 +515,14 @@ const Certificate = ({
                   Certificate Verification
                 </h3>
               </div>
-              
+
               <p className={cn(
                 "text-sm mb-4",
                 theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
               )}>
                 This certificate can be verified using the unique ID below. Share this ID with employers or institutions to verify your achievement.
               </p>
-              
+
               <div className={cn(
                 "p-3 rounded-lg flex items-center justify-between mb-4",
                 theme === 'dark'
@@ -532,7 +532,7 @@ const Certificate = ({
                 <span className="font-mono text-sm">
                   {certificateData.id}
                 </span>
-                
+
                 <Button
                   variant="ghost"
                   size="sm"
@@ -542,24 +542,24 @@ const Certificate = ({
                   <Copy className="h-4 w-4" />
                 </Button>
               </div>
-              
+
               <div className="space-y-3 mb-4">
                 {[
                   { icon: <Calendar className="h-4 w-4" />, label: "Issue Date", value: "October 15, 2023" },
                   { icon: <Calendar className="h-4 w-4" />, label: "Valid Until", value: "Lifetime" },
                   { icon: <User className="h-4 w-4" />, label: "Issued To", value: certificateData.studentName },
-                  { icon: <Award className="h-4 w-4" />, label: "Issued By", value: "EduAI Learning Platform" }
+                  { icon: <Award className="h-4 w-4" />, label: "Issued By", value: "Tantragyan Learning Platform" }
                 ].map((item, index) => (
                   <div key={index} className="flex items-center gap-3">
                     <div className={cn(
                       "w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0",
                       theme === 'dark' ? 'bg-[#1A1425]' : 'bg-[#F9F5FF]'
                     )}>
-                      {React.cloneElement(item.icon, { 
-                        className: `h-4 w-4 ${theme === 'dark' ? 'text-[#9D7BFF]' : 'text-[#6938EF]'}` 
+                      {React.cloneElement(item.icon, {
+                        className: `h-4 w-4 ${theme === 'dark' ? 'text-[#9D7BFF]' : 'text-[#6938EF]'}`
                       })}
                     </div>
-                    
+
                     <div className="flex-1">
                       <p className={cn(
                         "text-xs",
@@ -577,14 +577,14 @@ const Certificate = ({
                   </div>
                 ))}
               </div>
-              
+
               <Button
                 className="w-full bg-[#6938EF] hover:bg-[#5B2FD1] text-white flex items-center gap-2"
               >
                 <FileCheck className="w-4 h-4" />
                 Verify Certificate
               </Button>
-              
+
               <div className="mt-4 pt-4 border-t border-dashed border-gray-300 dark:border-gray-700">
                 <p className={cn(
                   "text-sm font-medium mb-2",
@@ -592,7 +592,7 @@ const Certificate = ({
                 )}>
                   Share Your Achievement
                 </p>
-                
+
                 <div className="flex items-center gap-2">
                   {[
                     { icon: <Linkedin className="h-4 w-4" />, color: "bg-[#0077B5]" },
