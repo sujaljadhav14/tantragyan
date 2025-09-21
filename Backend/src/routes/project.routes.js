@@ -1,6 +1,6 @@
 import express from "express";
 import { authMiddleware } from "../middleware/auth.middleware.js";
-import Project from "../models/project.model.js";
+import Project from "../models/Project.js";
 import { createProject } from "../controllers/project.controller.js";
 import { upload } from "../utils/cloudinary.js";
 
@@ -14,7 +14,7 @@ router.get("/", async (req, res) => {
     try {
         const projects = await Project.find()
             .sort({ createdAt: -1 })
-            .populate('creator', 'name email');
+            .populate('instructor', 'name email');
 
         res.status(200).json({
             success: true,
@@ -36,7 +36,7 @@ router.post("/create", upload.single("poster"), createProject);
 router.get("/:id", async (req, res) => {
     try {
         const project = await Project.findById(req.params.id)
-            .populate('creator', 'name email');
+            .populate('instructor', 'name email');
 
         if (!project) {
             return res.status(404).json({

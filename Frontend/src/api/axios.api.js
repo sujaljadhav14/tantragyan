@@ -464,7 +464,7 @@ export const getAllCustomCourses = async () => {
 
 // Create Project API
 export const createProject = (formData) => {
-  return api.post("/api/project/create", formData, {
+  return api.post("/api/projects/create", formData, {
     headers: {
       "Content-Type": "multipart/form-data",
     },
