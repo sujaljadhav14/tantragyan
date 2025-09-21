@@ -1,12 +1,13 @@
 import React from 'react';
 import './LeftSection.css';
+import aiLogo from "../../assets/welcomeback.jpg"
 
 const LeftSection = () => {
   return (
     <div className="left-section">
       <div className="image-container">
-        <img 
-          src="https://dashboard.codeparrot.ai/api/image/Z8KGqG37P2WCQpKV/img.png"
+        <img
+          src={aiLogo}
           alt="AI Learning Platform"
           className="main-image"
         />
