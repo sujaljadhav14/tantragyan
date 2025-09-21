@@ -85,7 +85,6 @@ export function Navbar() {
 
     return [
       { path: "/", label: "Home" },
-      { path: "/project", label: "Projects" },
       { path: "/internships", label: "Internships" },
       { path: "/dashboard", label: "Dashboard" },
     ];

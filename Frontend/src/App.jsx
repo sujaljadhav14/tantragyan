@@ -45,7 +45,6 @@ import PersonalizedCourseLearning from './pages/PersonalizedCourses/Personalized
 import WebSocketPage from './pages/Community/WebSocketPage';
 import Chat from './components/Chat/ChatComponent';
 import CommunityHome from './pages/Community/CommunityHome';
-import ProjectsHub from './pages/Community/ProjectsHub';
 import CreateProject from './pages/Community/CreateProject';
 import Projects from './pages/Community/Projects';
 import CreateProjectI from './pages/Instructor/CreateProject'
@@ -83,7 +82,6 @@ function App() {
                   <Route path="/internships" element={<Internships />} />
                   <Route path="/websocket" element={<WebSocketPage />} />
                   <Route path="/chat" element={<Chat />} />
-                  <Route path='/project' element={<ProjectsHub />} />
 
                   {/* Instructor Routes with Layout */}
                   <Route
@@ -224,7 +222,7 @@ function App() {
                       <ProtectedRoute
                         element={
                           <InstructorLayout>
-                            <CreateProject/>
+                            <CreateProject />
                           </InstructorLayout>
                         }
                       />
