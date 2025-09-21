@@ -119,6 +119,16 @@ const CreateProject = () => {
 
             projectFormData.append('modules', JSON.stringify(formData.modules));
 
+            // Debug logging
+            console.log('Form data being sent:');
+            console.log('Title:', formData.title);
+            console.log('Description:', formData.description);
+            console.log('Category:', formData.category);
+            console.log('Level:', formData.level);
+            console.log('Modules:', formData.modules);
+            console.log('Poster file:', formData.poster);
+            console.log('Auth token:', localStorage.getItem('auth_token'));
+
             const data = await createProject(projectFormData);
             toast({
                 title: "Success!",

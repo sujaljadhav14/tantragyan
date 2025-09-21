@@ -12,34 +12,67 @@ const projectSchema = new mongoose.Schema({
   category: {
     type: String,
     required: true,
-    enum: ['urban', 'rural', 'technology', 'environment', 'education', 'healthcare']
+    enum: [
+      'Web Development',
+      'Mobile Development',
+      'Data Science',
+      'UI/UX Design',
+      'Digital Marketing',
+      'Cloud Computing',
+      'Cybersecurity',
+      'Artificial Intelligence',
+      'DevOps',
+      'Blockchain'
+    ]
   },
-  location: {
+  level: {
     type: String,
-    required: true
+    required: true,
+    enum: ['beginner', 'intermediate', 'advanced'],
+    default: 'beginner'
   },
-  organization: {
+  poster: {
+    type: String, // URL to the uploaded image
+    default: null
+  },
+  modules: [{
+    title: {
+      type: String,
+      required: true
+    },
+    content: {
+      type: String,
+      required: true
+    },
+    videoUrl: {
+      type: String,
+      default: ''
+    }
+  }],
+  instructor: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Organization',
-    required: true
-  },
-  deadline: {
-    type: Date,
+    ref: 'User',
     required: true
   },
   status: {
     type: String,
-    enum: ['open', 'closed', 'in-review'],
-    default: 'open'
+    enum: ['draft', 'published', 'archived'],
+    default: 'draft'
   },
-  solutions: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Solution'
-  }],
   createdAt: {
     type: Date,
     default: Date.now
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now
   }
+});
+
+// Update the updatedAt field before saving
+projectSchema.pre('save', function (next) {
+  this.updatedAt = Date.now();
+  next();
 });
 
 export default mongoose.model('Project', projectSchema);
